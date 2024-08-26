@@ -1,0 +1,1 @@
+docker-compose -f docker-compose-ecommerce-single-broker.yml up -d

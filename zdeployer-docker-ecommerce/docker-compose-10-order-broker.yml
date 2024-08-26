@@ -1,0 +1,18 @@
+version: '2'
+services:
+  my-orderservice:
+    image: changwskr/order-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      spring.datasource.url: jdbc:mariadb://my-maridb:3306/mydb
+      logging.file: /api-logs/orders-ws.log
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.13
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

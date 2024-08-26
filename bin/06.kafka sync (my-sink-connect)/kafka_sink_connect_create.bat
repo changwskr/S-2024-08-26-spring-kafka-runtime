@@ -1,0 +1,15 @@
+http://localhost:8083/connectors
+    {
+    	"name":"my-sink-connect",
+    	"config":{
+    		"connector.class":"io.confluent.connect.jdbc.JdbcSinkConnector",
+    		"connection.url":"jdbc:mysql://localhost:3306/mydb",
+    		"connection.user":"root",
+    		"connection.password":"test1357",
+    		"auto.create":"true",
+    		"auto.evolve":"true",
+    		"delete.enabled":"false",
+    		"tasks.max":"1",
+    		"topics":"my_topic_users"
+    	}
+    }

@@ -1,0 +1,15 @@
+version: '2'
+services:
+  discovery-service:
+    image: changwskr/discovery-service:1.0
+    ports:
+      - "8761:8761"
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+    networks:
+      my-network:
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

@@ -1,0 +1,43 @@
+Spring Boot 2.0 이상부터는 애플리케이션의 metric 측정을 위해서 Micrometer를 제공한다.
+Micrometer는 Spring Boot 2의 Actuator에 포함되어 있기 때문에 spring-boot-starter-actuator를 dependency에 추가해주면 쉽게 사용할 수 있다.
+
+user-service
+#-----------------------------------------------------------------------------------------------------------------------
+[pom.yml]
+    □ dependency 추가
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+    □ ------------------------------------------------------------------------------------------------------------------
+[application.yml]
+    □ endpoints 추가
+        management:
+          endpoints:
+            web:
+              exposure:
+                include: refresh,health,beans,busrefresh, info, metrics, prometheus
+    □ ------------------------------------------------------------------------------------------------------------------
+[UserController]
+    □ 함수 변경
+        @GetMapping("/health_check")
+            @Timed(value = "users.status", longTask = true)
+            public String status() {
+                return String.format("It's Working in User Service on Port"
+                        + ", port(local.server.port)=" + env.getProperty("local.server.port")
+                        + ", port(server.port)=" + env.getProperty("server.port")
+                        + ", token secret=" + env.getProperty("token.secret")
+                        + ", token expiration time=" + env.getProperty("token.expiration_time"));
+            }
+
+            @GetMapping("/welcome")
+            @Timed(value = "users.welcome", longTask = true)
+            public String welcome() {
+        //        return env.getProperty("greeting.message");
+                return greeting.getMessage();
+            }
+
+    □ ------------------------------------------------------------------------------------------------------------------
+[test]
+    □ http://127.0.0.1:8000/user-service/actuator/metrics
+    □ http://127.0.0.1:8000/user-service/actuator/prometheus

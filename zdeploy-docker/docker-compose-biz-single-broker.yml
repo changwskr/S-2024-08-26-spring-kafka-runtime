@@ -1,0 +1,43 @@
+version: '2'
+services:
+  my-userservice:
+    image: changwskr/my-userservice:1.0
+    environment:
+      spring.cloud.config.uri: http://my-configservice:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://my-discoveryservice:8761/eureka/
+      logging.file: /api-logs/users-ws.log
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.12
+
+  my-orderservice:
+    image: changwskr/my-orderservice:1.0
+    environment:
+      spring.cloud.config.uri: http://my-configservice:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://my-discoveryservice:8761/eureka/
+      spring.datasource.url: jdbc:mariadb://my-maridb:3306/mydb
+      logging.file: /api-logs/orders-ws.log
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.13
+  
+  my-catalogservice:
+    image: changwskr/my-catalogservice:1.0
+    environment:
+      spring.cloud.config.uri: http://my-configservice:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://my-discoveryservice:8761/eureka/
+      logging.file: /api-logs/catalogs-ws.log
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.14
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

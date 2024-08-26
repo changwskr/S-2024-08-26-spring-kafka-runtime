@@ -1,0 +1,12 @@
+version: '2'
+services:
+  my-maridb:
+    image: changwskr/my_mariadb:1.0
+    ports:
+      - "3306:3306"
+    networks:
+      my-network:
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

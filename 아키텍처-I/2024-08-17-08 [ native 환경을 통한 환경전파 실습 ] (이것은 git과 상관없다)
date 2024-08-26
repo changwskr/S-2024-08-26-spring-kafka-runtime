@@ -1,0 +1,85 @@
+지금까진 로컬디렉토리 C:\Programming(23-08-15)\zRepository\zlogcal-dir
+ecommerce.yaml, ecommerce-dev.yaml, ecommerce-prod.yaml ecommerce-uat.yaml 이용했다.
+
+이 정보는 spring-config-service의 application.yaml 정보에 명시되어 사용되어져 왔다.
+        spring:
+          application:
+            name: config-service
+          cloud:
+            config:
+              server:
+                git:
+                  uri: file://c:\Programming(23-08-15)\zRepository\zlogcal-dir
+
+지금부턴 이정보를 remote git에 저장하고 이용하는 방법에 대해서 알아보자
+
+리모트로 환경 변경 절차
+#-----------------------------------------------------------------------------------------------------------------------
+[spring-config-service] 08-17-08
+        server:
+          port: 8888
+        spring:
+          application:
+            name: config-service
+
+          profiles:
+            active: native
+            # active: git
+
+          cloud:
+            config:
+              server:
+                native:
+                  search-locations: file:///C:\Programming(23-08-15)\zRepository\r2022-11-17-spring-cloud-config-native-repository
+                git:
+                  # (local 디렉토리 활용-단 git push 하면 안됨)
+                  # uri: file://c:\Programming(23-08-15)\zRepository\r2022-11-17-spring-cloud-config-localrepository
+                  uri: https://github.com/changwskr/spring-cloud-config
+                  # (만약 publiic type이면 username password는 필요없다)
+                  # username: changwskr
+                  # password: !1974yoe0
+                  force-pull: true
+
+#-----------------------------------------------------------------------------------------------------------------------
+[실행] spring-config-service 가 정상 기동하고 다음의 url를 호출해본다.
+
+● 테스트
+	http://127.0.0.1:8888/user-service/default
+	http://127.0.0.1:8888/ecommerce/default
+	http://127.0.0.1:8888/ecommerce/dev
+	http://127.0.0.1:8888/ecommerce/prod
+	http://127.0.0.1:8888/application/default
+	http://127.0.0.1:8888/user-service/native
+	http://127.0.0.1:8888/ecommerce/native
+
+● 파일예시
+user-service-dev.yaml
+user-service-prod.yaml
+user-service-uat.yaml
+user-service.yaml
+
+● http://127.0.0.1:8888/user_service/default
+{
+    "name": "user_service",
+    "profiles": [
+        "default"
+    ],
+    "label": null,
+    "version": null,
+    "state": null,
+    "propertySources": [
+        {
+            "name": "file:C:\\Programming(23-08-15)\\zRepository\\r2022-11-17-spring-cloud-config-native-repository\\application.yml",
+            "source": {
+                "token.expiration_time": 86400000,
+                "token.secret": "user_token_native_application",
+                "gateway.ip": "192.168.0.8"
+            }
+        }
+    ]
+}
+● http://127.0.0.1:8888/user-service-dev/default
+●
+
+
+●

@@ -1,0 +1,32 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "15671:15671"
+      - "15672:15672"
+      - "5671:5671"
+      - "5672:5672"
+      - "4369:4369"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      my-network:
+
+  config-service:
+    image: changwskr/config-service:1.0
+    ports:
+      - "8888:8888"
+    environment:
+      spring.rabbitmq.host: rabbitmq
+      spring.profiles.active: default
+    depends_on:
+      - rabbitmq
+    networks:
+      my-network:
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

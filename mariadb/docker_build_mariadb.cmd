@@ -1,0 +1,1 @@
+docker build -t changwskr/my_mariadb:1.0 .

@@ -1,0 +1,22 @@
+version: '2'
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - C:\Programming(23-08-15)\zRepository\r2024-08-25-spring-cloud-monitoring-service\prometheus\prometheus-2.54.0.windows-amd64/prometheus.yml:/etc/prometheus/prometheus.yml ^
+    networks:
+      my-network:
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      my-network:
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

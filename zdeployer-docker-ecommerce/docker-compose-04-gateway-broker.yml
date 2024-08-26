@@ -1,0 +1,17 @@
+version: '2'
+services:
+  apigateway-service:
+    image: changwskr/apigateway-service:1.0
+    ports:
+      - "8000:8000"
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+    networks:
+      my-network:
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

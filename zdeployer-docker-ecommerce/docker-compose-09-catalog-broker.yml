@@ -1,0 +1,18 @@
+version: '2'
+services:
+  my-catalogservice:
+    image: changwskr/catalog-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/catalogs-ws.log
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.14
+
+networks:
+  my-network:
+    external: true
+    name: ecommerce-network

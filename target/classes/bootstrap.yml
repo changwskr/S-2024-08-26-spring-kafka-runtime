@@ -1,0 +1,10 @@
+#
+#encrypt:
+#  key-store:
+#    location: file:///C:\Programming(23-08-15)\zRepository\r2022-11-17-spring-cloud-config-service\keystore\apiEncryptionKey.jks
+#    password: 1q2w3e4r
+#    alias: apiEncryptionKey
+#
+#
+#
+#

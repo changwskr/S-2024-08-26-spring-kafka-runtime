@@ -1,0 +1,1 @@
+mariadb -uroot -p -h127.0.0.1
